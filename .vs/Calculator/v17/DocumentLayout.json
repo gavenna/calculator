@@ -49,7 +49,8 @@
               "ToolTip": "C:\\Users\\Mckel\\Desktop\\Csharp\\tools\\Calculator\\Calculator\\App.xaml",
               "RelativeToolTip": "Calculator\\App.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-02-08T10:09:19.649Z"
+              "WhenOpened": "2025-02-08T10:09:19.649Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -60,7 +61,8 @@
               "ToolTip": "C:\\Users\\Mckel\\Desktop\\Csharp\\tools\\Calculator\\Calculator\\MainWindow.xaml",
               "RelativeToolTip": "Calculator\\MainWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-02-08T09:23:39.783Z"
+              "WhenOpened": "2025-02-08T09:23:39.783Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -70,7 +72,7 @@
               "RelativeDocumentMoniker": "Calculator\\MainWindow.xaml.cs",
               "ToolTip": "C:\\Users\\Mckel\\Desktop\\Csharp\\tools\\Calculator\\Calculator\\MainWindow.xaml.cs",
               "RelativeToolTip": "Calculator\\MainWindow.xaml.cs",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAAwDMAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAOYAAAAAAAAAAAAAAPEAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-08T09:23:39.595Z",
               "EditorCaption": ""

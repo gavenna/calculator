@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\Mckel\\Desktop\\Csharp\\tools\\Calculator\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{089CFF43-4ED9-47DB-A35F-510387C04282}|Calculator\\Calculator.csproj|c:\\users\\mckel\\desktop\\csharp\\tools\\calculator\\calculator\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{089CFF43-4ED9-47DB-A35F-510387C04282}|Calculator\\Calculator.csproj|solutionrelative:calculator\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{089CFF43-4ED9-47DB-A35F-510387C04282}|Calculator\\Calculator.csproj|C:\\Users\\Mckel\\Desktop\\Csharp\\tools\\Calculator\\calculator\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{089CFF43-4ED9-47DB-A35F-510387C04282}|Calculator\\Calculator.csproj|solutionrelative:calculator\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{089CFF43-4ED9-47DB-A35F-510387C04282}|Calculator\\Calculator.csproj|c:\\users\\mckel\\desktop\\csharp\\tools\\calculator\\calculator\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{089CFF43-4ED9-47DB-A35F-510387C04282}|Calculator\\Calculator.csproj|solutionrelative:calculator\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{089CFF43-4ED9-47DB-A35F-510387C04282}|Calculator\\Calculator.csproj|C:\\Users\\Mckel\\Desktop\\Csharp\\tools\\Calculator\\calculator\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -26,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
@@ -38,8 +38,7 @@
               "RelativeToolTip": "Calculator\\App.xaml.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-08T10:09:22.462Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-08T10:09:22.462Z"
             },
             {
               "$type": "Document",
@@ -55,7 +54,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "MainWindow.xaml",
               "DocumentMoniker": "C:\\Users\\Mckel\\Desktop\\Csharp\\tools\\Calculator\\Calculator\\MainWindow.xaml",
               "RelativeDocumentMoniker": "Calculator\\MainWindow.xaml",
@@ -67,13 +66,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "MainWindow.xaml.cs",
               "DocumentMoniker": "C:\\Users\\Mckel\\Desktop\\Csharp\\tools\\Calculator\\Calculator\\MainWindow.xaml.cs",
               "RelativeDocumentMoniker": "Calculator\\MainWindow.xaml.cs",
               "ToolTip": "C:\\Users\\Mckel\\Desktop\\Csharp\\tools\\Calculator\\Calculator\\MainWindow.xaml.cs",
               "RelativeToolTip": "Calculator\\MainWindow.xaml.cs",
-              "ViewState": "AgIAADAAAAAAAAAAAAAYwDMAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAwCkAAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-08T09:23:39.595Z",
               "EditorCaption": ""
