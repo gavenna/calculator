@@ -12,5 +12,6 @@ version1.0
 1. 新增Stack类，换掉了手搓的两个栈，使用泛型Stack<object>来支持多种类型
 2. 新增了Grade类专门用于返回操作符的优先级和根据输入计算结果
 3. 支持阶乘运算
+
 ![pic](/images/calcunew.jpg)
 
