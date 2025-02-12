@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
@@ -16,58 +17,60 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Calculator
-{
-    /// <summary>
-    /// MainWindow.xaml 的交互逻辑
-    /// </summary>
-    /// 
-
+{   
     public partial class MainWindow : Window
-    {
-        char[] Stack_Operator = new char[10];
-        string[] Stack_Operators = new string[10];
-        int[] Stack_Nums = new int[10];
-        static int index_opera = 0;
-        static int index_Nums = 0;
-        string temp_input;
-        int result = 0;
-        int put_state = 0;
-
+    {        
+        string temp_input; // 处理数据来源
+        int put_state = 0; // 用于调整接受包结构
+        private StackRestorer operaStack = new StackRestorer(); // 用于存放操作符的栈
+        private StackRestorer numStack = new StackRestorer(); // 用于存放操作数的栈
         public MainWindow()
         {
-            InitializeComponent();
-
+            InitializeComponent();            
         }
-        // 清空
+        // 清空显示区，重置包结构
         private void btClear_Click(object sender, RoutedEventArgs e)
         {
             tbInput.Text = string.Empty;
             temp_input = string.Empty;
             tbResult.Text = string.Empty;
+            put_state = 0;
         }
 
         // 即时显示 + buttonNums
         private void btData_Input(object sender, RoutedEventArgs e)
         {
-            
-            string ad = sender.ToString().Substring(sender.ToString().Length - 1);
-            Console.WriteLine(sender.ToString());
-            if (ad[0] == 'o')
+            ReceiveData(sender.ToString());
+        }        
+
+        // 计算并显示结果
+        private void btEqual_Click(object sender, RoutedEventArgs e)
+        {
+            DataHandle();
+        }
+
+        // 接收包逻辑
+        public void ReceiveData(string str)
+        {
+            string ad = str.Substring(str.LastIndexOf(' ') + 1);
+
+            Console.WriteLine(ad);
+            if (ad == "genhao")
             {
                 string newstr = $"√({tbInput.Text[tbInput.Text.Length - 1]})";
                 tbInput.Text = tbInput.Text.Remove(tbInput.Text.Length - 1) + newstr;
             }
             else
                 tbInput.Text += ad;
-            
-            if( (ad[0] < 48 || ad[0] > 57 )&& put_state == 0)
-            {             
+
+            if ((ad[0] < 48 || ad[0] > 57) && put_state == 0)
+            {
                 put_state = 1;
                 temp_input += ' ';
                 temp_input += ad;
 
             }
-            else if((ad[0] >= 48 || ad[0] <= 57) && put_state ==1)
+            else if ((ad[0] >= 48 || ad[0] <= 57) && put_state == 1)
             {
                 temp_input += ' ';
                 temp_input += ad;
@@ -77,265 +80,82 @@ namespace Calculator
             {
                 temp_input += ad;
             }
-
-
-
-        }
-        // 入栈
-        private static int push_StackNums(int[] objer, int val)
-        {
-            if (index_Nums == (objer.Length - 1))
-            {
-                //NULL
-                MessageBox.Show("To much  nums args!!!");
-                return -1;
-            }
-            else
-            {
-                //YU
-                objer[++index_Nums] = val;
-                return 0;
-            }
         }
 
-        // 出栈
-        private static int pop_StackNums(int[] objer)
+        // 数据处理逻辑
+        public void DataHandle()
         {
-            if (index_Nums == 0)
+            int num;
+            string[] numsary = temp_input.Split(' ');
+            foreach (string cur in numsary)
             {
-                //NULL
-                MessageBox.Show("no more nums args!!!");
-                return -1;
-
-            }
-            else
-            {
-                //YU
-                //objer.SetValue(val, index_opera);
-                index_Nums--;
-                return 0;
-            }
-        }
-        // 操作符入栈
-        private static int push_Stackopera(string[] objer, string val)
-        {
-            if (index_opera == (objer.Length - 1))
-            {
-                //NULL
-                MessageBox.Show("To much opear args!!!");
-                return -1;
-            }
-            else
-            {
-                //YU
-                objer[++index_opera] = val;
-                return 0;
-            }
-        }
-        // 操作符出栈
-        private static int pop_Stackopera(string[] objer)
-        {
-            if (index_opera == 0)
-            {
-                //NULL
-                MessageBox.Show("no more opera args!!!");
-                return -1;
-            }
-            else
-            {
-                //YU
-                //objer.SetValue(val, index_opera);
-                index_opera--;
-                return 0;
-            }
-        }
-        // if empty
-        private static bool ifOperaEmpty()
-        {
-            if (index_opera == 0)
-                return true;
-            else return false;
-
-        }
-
-        // if button =
-        private void btEqual_Click(object sender, RoutedEventArgs e)
-        {
-            analo(temp_input);            
-        }       
-
-        // 解析字符串，将*/运算解决
-        public  void analo(string obj)
-        {
-            int result = 0, a = 0, b;            
-            string[] numsary = obj.Split(' ');
-            int temp_index = 0;
-            foreach (var ny in numsary)
-            {
-                int temp=0;
-                if(int.TryParse(ny,out temp) == true)
+                Grade Current = new Grade(cur);
+                if (int.TryParse(cur, out num))
                 {
-                    push_StackNums(Stack_Nums, temp);
+                    numStack.Push((int)num);
                 }
                 else
                 {
-                    if (index_opera == 0)
-                        push_Stackopera(Stack_Operators, ny);
+                    if (operaStack.GetDataCount() == 0)
+                    {
+                        operaStack.Push((string)cur);
+                    }
                     else
                     {
-                        while(!ifOperaEmpty())
+                        while (operaStack.GetDataCount() > 0)
                         {
-                            int levelcur = 0, levellast = 0;
-                            if (ny == "+" || ny == "-")
-                            {
-                                levelcur = 1;
-                            }
-                            else
-                            {
-                                levelcur = 2;
-                            }
-                            pop_Stackopera(Stack_Operators);
-                            string operalast = Stack_Operators[index_opera + 1];
-                            if (operalast == "+" || operalast == "-")
-                            {
-                                levellast = 1;
-                            }
-                            else
-                            {
-                                levellast = 2;
-                            }
+                            string last = (string)operaStack.Pop();
+                            Grade Last = new Grade(last);
 
-
-                            if (levelcur <= levellast)
+                            if (Current.level > Last.level)
                             {
-                                //pop_Stackopera(Stack_Operators);
-                                if (operalast == "+")
-                                {
-                                    pop_StackNums(Stack_Nums);
-                                    a = Stack_Nums[index_Nums + 1];
-                                    pop_StackNums(Stack_Nums);
-                                    b = Stack_Nums[index_Nums + 1];
-                                    push_StackNums(Stack_Nums, a + b);
-                                }
-                                else if (operalast == "-")
-                                {
-                                    pop_StackNums(Stack_Nums);
-                                    a = Stack_Nums[index_Nums + 1];
-                                    pop_StackNums(Stack_Nums);
-                                    b = Stack_Nums[index_Nums + 1];
-                                    push_StackNums(Stack_Nums, b - a);
-                                }
-                                else if (operalast == "X")
-                                {
-                                    pop_StackNums(Stack_Nums);
-                                    a = Stack_Nums[index_Nums + 1];
-                                    pop_StackNums(Stack_Nums);
-                                    b = Stack_Nums[index_Nums + 1];
-                                    push_StackNums(Stack_Nums, b * a);
-                                }
-                                else if (operalast == "/")
-                                {
-                                    pop_StackNums(Stack_Nums);
-                                    a = Stack_Nums[index_Nums + 1];
-                                    pop_StackNums(Stack_Nums);
-                                    b = Stack_Nums[index_Nums + 1];
-                                    push_StackNums(Stack_Nums, b / a);
-                                }
-                            }
-                            else
-                            {
-                                push_Stackopera(Stack_Operators, operalast);
-                                push_Stackopera(Stack_Operators, ny);
+                                operaStack.Push((string)last);
+                                operaStack.Push((string)cur);
                                 break;
                             }
-                        }// while(!ifOperaEmpty())
-                        if(ifOperaEmpty())
-                        {
-                            push_Stackopera(Stack_Operators, ny);
-                        }
-                    }
-                }
-                temp_index++;
-            }
-
-             
-            /*
-            for (int i=0;i<obj.Length;i++)
-            {
-                if ((int)obj[i] >48 && (int)obj[i] < 60)
-                {
-                    Console.WriteLine(obj[i]);
-                    //nums
-                    push_StackNums(Stack_Nums, Convert.ToInt32(obj[i])-48);
-                    
-                }
-                else
-                {                    
-                    //opera
-                    if(index_opera==0)
-                        push_Stackopera(Stack_Operator, obj[i]);
-                    else
-                    {
-                        // IF PRevilge
-                        if((obj[index_opera-1] == '*' || obj[index_opera-1] == '/') || (obj[index_opera] == '-' || obj[index_opera] == '-'))
-                        {
-                            a  = pop_StackNums(Stack_Nums);
-                            b  = pop_StackNums(Stack_Nums);
-                            if (obj[index_opera-1] == '*')
-                            {
-                                push_StackNums(Stack_Nums, a * b);
-                            }
                             else
                             {
-                                push_StackNums(Stack_Nums, b/a);
+                                int a = Last.GetPopnum();
+                                if (a == 0)
+                                {
+                                    numStack.Push((int)Last.Caculate((int)numStack.Pop()));
+                                }
+                                else
+                                {
+                                    int c = (int)numStack.Pop();
+                                    int d = (int)numStack.Pop();
+                                    numStack.Push((int)Last.Caculate(c, d));
+                                    Console.WriteLine($"{c} || {d}");
+                                }
                             }
                         }
-                        else
+                        if (operaStack.GetDataCount() == 0)
                         {
-                            push_Stackopera(Stack_Operator, obj[index_opera]);
+                            operaStack.Push((string)cur);
                         }
                     }
                 }
-            }*/       
-            while(!ifOperaEmpty())
+            }
+
+            while (operaStack.GetDataCount() > 0)
             {
-                pop_Stackopera(Stack_Operators);
-                if (Stack_Operators[index_opera + 1] == "+")
+                string last = (string)operaStack.Pop();
+                Grade Last = new Grade(last);
+                int a = Last.GetPopnum();
+                if (a == 0)
                 {
-                    pop_StackNums(Stack_Nums);
-                    a = Stack_Nums[index_Nums + 1];
-                    pop_StackNums(Stack_Nums);
-                    b = Stack_Nums[index_Nums + 1];
-                    push_StackNums(Stack_Nums, a + b);
+                    numStack.Push((int)Last.Caculate((int)numStack.Pop()));
                 }
-                else if (Stack_Operators[index_opera + 1] == "-")
+                else
                 {
-                    pop_StackNums(Stack_Nums);
-                    a = Stack_Nums[index_Nums + 1];
-                    pop_StackNums(Stack_Nums);
-                    b = Stack_Nums[index_Nums + 1];
-                    push_StackNums(Stack_Nums, b - a);
+                    int c = (int)numStack.Pop();
+                    int d = (int)numStack.Pop();
+                    numStack.Push((int)Last.Caculate(c, d));
+                    Console.WriteLine($"{c} || {d}");
                 }
-                else if (Stack_Operators[index_opera + 1] == "X")
-                {
-                    pop_StackNums(Stack_Nums);
-                    a = Stack_Nums[index_Nums + 1];
-                    pop_StackNums(Stack_Nums);
-                    b = Stack_Nums[index_Nums + 1];
-                    push_StackNums(Stack_Nums, b * a);
-                }
-                else if (Stack_Operators[index_opera + 1] == "/")
-                {
-                    pop_StackNums(Stack_Nums);
-                    a = Stack_Nums[index_Nums + 1];
-                    pop_StackNums(Stack_Nums);
-                    b = Stack_Nums[index_Nums + 1];
-                    push_StackNums(Stack_Nums, b / a);
-                }
-            }                            
-            pop_StackNums(Stack_Nums);
-            result = Stack_Nums[index_Nums + 1];
-            tbResult.Text = result.ToString();
+            }
+
+            tbResult.Text = numStack.Pop().ToString();
         }
     }
 }

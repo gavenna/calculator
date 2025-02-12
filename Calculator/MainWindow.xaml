@@ -143,8 +143,8 @@
                     </Button>
                 </Grid>
                 <Button Content="("/>
-                <Button Content=")"/>  
-                <Button Content="n!"/>
+                <Button Content=")"/>
+                <Button Content="!" Style="{StaticResource operaBT}"/>
                 <Button x:Name="btChu" Content="/" Style="{StaticResource operaBT}"/>
             </StackPanel>
 
